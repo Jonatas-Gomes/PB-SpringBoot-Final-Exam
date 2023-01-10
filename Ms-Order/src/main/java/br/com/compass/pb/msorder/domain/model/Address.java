@@ -1,4 +1,4 @@
-package br.com.compass.pb.MsOrder.domain.model;
+package br.com.compass.pb.msorder.domain.model;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -14,11 +14,17 @@ public class Address {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
     private String street;
+
     private String number;
+
     private String district;
+
     private String city;
+
     private String state;
+
     @Column(nullable = false)
     private String cep;
 }
