@@ -1,4 +1,4 @@
-package br.com.compass.pb.MsOrder;
+package br.com.compass.pb.msorder;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
