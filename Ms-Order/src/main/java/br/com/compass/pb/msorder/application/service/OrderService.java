@@ -1,29 +1,42 @@
 package br.com.compass.pb.msorder.application.service;
 
 import br.com.compass.pb.msorder.application.ports.in.OrderUseCase;
-import br.com.compass.pb.msorder.application.ports.out.OrderRepositoryPortOut;
+import br.com.compass.pb.msorder.application.ports.out.ItemPortOut;
+import br.com.compass.pb.msorder.application.ports.out.OrderPortOut;
+import br.com.compass.pb.msorder.domain.dto.ItemDTO;
 import br.com.compass.pb.msorder.domain.dto.OrderDTO;
+import br.com.compass.pb.msorder.domain.dto.OrderResponse;
+import br.com.compass.pb.msorder.domain.model.Item;
 import br.com.compass.pb.msorder.domain.model.Order;
-import br.com.compass.pb.msorder.framework.adapters.out.repository.OrderRepositoryImpl;
 import lombok.RequiredArgsConstructor;
-import org.hibernate.cache.spi.support.AbstractReadWriteAccess;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
-import javax.management.modelmbean.ModelMBean;
-import java.util.ArrayList;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
 public class OrderService implements OrderUseCase {
-    private final OrderRepositoryPortOut repository;
+    private final OrderPortOut repository;
     private final ModelMapper modelMapper;
+    private final ItemPortOut itemRepository;
 
     @Override
-    public OrderDTO createOrder(OrderDTO orderDTO) {
-        Order order = modelMapper.map(orderDTO, Order.class);
+    public OrderResponse createOrder(OrderDTO orderDTO) {
+        var order = modelMapper.map(orderDTO, Order.class);
         repository.save(order);
-        System.out.println(orderDTO.getCpf());
-        return modelMapper.map(order, OrderDTO.class);
+
+        List<Item> items = order.getItems();
+        items.forEach(item -> {
+            item.setOrder(order);
+        });
+        itemRepository.saveAll(items);
+
+        var orderResponse = new OrderResponse();
+        orderResponse.setItens(items);
+        orderResponse.setCpf(orderDTO.getCpf());
+        orderResponse.setEndereco(orderDTO.getAddress());
+        orderResponse.setTotal(orderDTO.getTotal());
+        return orderResponse;
     }
 }
