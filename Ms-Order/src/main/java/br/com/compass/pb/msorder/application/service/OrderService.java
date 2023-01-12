@@ -1,7 +1,6 @@
 package br.com.compass.pb.msorder.application.service;
 
 import br.com.compass.pb.msorder.application.ports.in.OrderUseCase;
-import br.com.compass.pb.msorder.application.ports.out.ItemPortOut;
 import br.com.compass.pb.msorder.application.ports.out.OrderPortOut;
 import br.com.compass.pb.msorder.domain.dto.AddressDTO;
 import br.com.compass.pb.msorder.domain.dto.OrderDTO;
@@ -28,7 +27,6 @@ import java.util.List;
 public class OrderService implements OrderUseCase {
     private final OrderPortOut repository;
     private final ModelMapper modelMapper;
-    private final ItemPortOut itemRepository;
     private final ViaCepClient viaCepClient;
 
     @Override
