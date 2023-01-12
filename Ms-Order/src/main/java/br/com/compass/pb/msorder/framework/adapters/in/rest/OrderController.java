@@ -5,6 +5,8 @@ import br.com.compass.pb.msorder.domain.dto.OrderDTO;
 import br.com.compass.pb.msorder.domain.dto.OrderResponse;
 import br.com.compass.pb.msorder.domain.dto.PageableResponse;
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
@@ -23,5 +25,9 @@ public class OrderController {
     @GetMapping
     public ResponseEntity<PageableResponse> findAll(@RequestParam(required = false )String cpf, Pageable pageable){
         return ResponseEntity.status(HttpStatus.OK).body(orderUseCase.FindAll(cpf, pageable));
+    }
+    @GetMapping("/{id}")
+    public ResponseEntity<OrderResponse> findById(@PathVariable Long id){
+        return ResponseEntity.status(HttpStatus.OK).body(orderUseCase.findById(id));
     }
 }
