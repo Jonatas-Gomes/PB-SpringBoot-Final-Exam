@@ -1,7 +1,6 @@
 package br.com.compass.pb.msorder.framework.adapters.in.rest;
 
 import br.com.compass.pb.msorder.application.ports.in.OrderUseCase;
-import br.com.compass.pb.msorder.domain.dto.ItemDTO;
 import br.com.compass.pb.msorder.domain.dto.OrderDTO;
 import br.com.compass.pb.msorder.domain.dto.OrderResponse;
 import jakarta.validation.Valid;
