@@ -32,4 +32,9 @@ public class OrderController {
     public ResponseEntity<OrderResponse> update(@PathVariable Long id, @RequestBody @Valid OrderDTO orderDTO){
         return ResponseEntity.status(HttpStatus.OK).body(orderUseCase.update(id, orderDTO));
     }
+    @DeleteMapping("/{id}")
+    public ResponseEntity delete(@PathVariable Long id){
+        orderUseCase.delete(id);
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+    }
 }
