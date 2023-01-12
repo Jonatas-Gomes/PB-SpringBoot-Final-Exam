@@ -12,4 +12,5 @@ public interface OrderPortOut {
     Page<Order> findByCpf(String cpf, Pageable pageable);
 
     Optional<Order> findById(Long id);
+
 }

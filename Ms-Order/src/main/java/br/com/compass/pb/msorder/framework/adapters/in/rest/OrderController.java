@@ -22,10 +22,14 @@ public class OrderController {
     }
     @GetMapping
     public ResponseEntity<PageableResponse> findAll(@RequestParam(required = false )String cpf, Pageable pageable){
-        return ResponseEntity.status(HttpStatus.OK).body(orderUseCase.FindAll(cpf, pageable));
+        return ResponseEntity.status(HttpStatus.OK).body(orderUseCase.findall(cpf, pageable));
     }
     @GetMapping("/{id}")
     public ResponseEntity<OrderResponse> findById(@PathVariable Long id){
         return ResponseEntity.status(HttpStatus.OK).body(orderUseCase.findById(id));
+    }
+    @PutMapping("/{id}")
+    public ResponseEntity<OrderResponse> update(@PathVariable Long id, @RequestBody @Valid OrderDTO orderDTO){
+        return ResponseEntity.status(HttpStatus.OK).body(orderUseCase.update(id, orderDTO));
     }
 }
