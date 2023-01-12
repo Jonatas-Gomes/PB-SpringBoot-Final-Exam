@@ -7,6 +7,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
 
+import java.util.Optional;
+
 @RequiredArgsConstructor
 @Repository
 public class OrderRepositoryImpl implements OrderPortOut {
@@ -25,6 +27,11 @@ public class OrderRepositoryImpl implements OrderPortOut {
     @Override
     public Page<Order> findByCpf(String cpf, Pageable pageable) {
         return orderRepository.findByCpf(cpf, pageable);
+    }
+
+    @Override
+    public Optional<Order> findById(Long id) {
+        return orderRepository.findById(id);
     }
 
 

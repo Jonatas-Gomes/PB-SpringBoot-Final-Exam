@@ -82,4 +82,11 @@ public class OrderService implements OrderUseCase {
                   .build();
 
     }
+
+    @Override
+    public OrderResponse findById(Long id) {
+        Order order = repository.findById(id)
+                .orElseThrow(()-> new GenericException(HttpStatus.BAD_REQUEST, "Não foi possivel localizar um pedido com este id"));
+        return new OrderResponse(order);
+    }
 }
