@@ -63,7 +63,7 @@ public class OrderService implements OrderUseCase {
     }
 
     @Override
-    public PageableResponse FindAll(String cpf, Pageable pageable) {
+    public PageableResponse findall(String cpf, Pageable pageable) {
         if (cpf != null)
             cpf = cpf.replaceAll(" ", "");
         Page<Order> page = cpf == null || cpf.isEmpty()?
@@ -87,6 +87,42 @@ public class OrderService implements OrderUseCase {
     public OrderResponse findById(Long id) {
         Order order = repository.findById(id)
                 .orElseThrow(()-> new GenericException(HttpStatus.BAD_REQUEST, "Não foi possivel localizar um pedido com este id"));
+        return new OrderResponse(order);
+    }
+
+    @Override
+    public OrderResponse update(Long id, OrderDTO orderDTO) {
+        var order = repository.findById(id)
+                .orElseThrow(()-> new GenericException(HttpStatus.BAD_REQUEST, "Não foi possivel localizar um pedido com este id"));
+
+        AddressDTO addressDTO = viaCepClient.findByCep(orderDTO.getCep());
+        if(addressDTO.getLocalidade() == null)
+            throw new GenericException(HttpStatus.BAD_REQUEST,"Cep inexistente");
+
+        var address = Address.builder()
+                .cep(orderDTO.getCep())
+                .district(addressDTO.getBairro())
+                .state(addressDTO.getUf())
+                .city(addressDTO.getLocalidade())
+                .number(orderDTO.getNumber())
+                .street(addressDTO.getLogradouro())
+                .build();
+        
+        List<Item> items = orderDTO.getItems();
+        for(Item item : items){
+            item.setOrder(order);
+            item.setCreationDate(LocalDate.now());
+            if(item.getExpirationDate().isBefore(item.getCreationDate())){
+                throw new GenericException(HttpStatus.BAD_REQUEST, "O item não pode expirar antes da data de criação!");
+            }
+        }
+
+        order.setItems(items);
+        order.setCpf(orderDTO.getCpf());
+        order.setTotal(orderDTO.getTotal());
+        order.setAddress(address);
+
+        repository.save(order);
         return new OrderResponse(order);
     }
 }

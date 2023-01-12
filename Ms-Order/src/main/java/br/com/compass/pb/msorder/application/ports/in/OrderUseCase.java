@@ -7,6 +7,8 @@ import org.springframework.data.domain.Pageable;
 
 public interface OrderUseCase {
     OrderResponse createOrder(OrderDTO orderDTO);
-    PageableResponse FindAll(String cpf, Pageable Pageable);
+    PageableResponse findall(String cpf, Pageable Pageable);
     OrderResponse findById(Long id);
+
+    OrderResponse update(Long id, OrderDTO orderDTO);
 }
