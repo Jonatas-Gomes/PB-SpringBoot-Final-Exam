@@ -125,4 +125,11 @@ public class OrderService implements OrderUseCase {
         repository.save(order);
         return new OrderResponse(order);
     }
+
+    @Override
+    public void delete(Long id) {
+        if(!repository.findById(id).isPresent())
+            throw new GenericException(HttpStatus.BAD_REQUEST, "Não foi possivel localizar um pedido com este id!");
+        repository.deleteById(id);
+    }
 }

@@ -8,9 +8,13 @@ import java.util.Optional;
 
 public interface OrderPortOut {
     <S extends Order> S save(S entity);
+
     Page<Order> findAll (Pageable page);
+
     Page<Order> findByCpf(String cpf, Pageable pageable);
 
     Optional<Order> findById(Long id);
+
+    void deleteById(Long id);
 
 }

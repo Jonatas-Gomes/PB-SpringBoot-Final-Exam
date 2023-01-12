@@ -34,5 +34,10 @@ public class OrderRepositoryImpl implements OrderPortOut {
         return orderRepository.findById(id);
     }
 
+    @Override
+    public void deleteById(Long id) {
+        orderRepository.deleteById(id);
+    }
+
 
 }
