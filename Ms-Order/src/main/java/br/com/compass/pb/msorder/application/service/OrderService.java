@@ -6,6 +6,7 @@ import br.com.compass.pb.msorder.application.ports.out.OrderPortOut;
 import br.com.compass.pb.msorder.domain.dto.AddressDTO;
 import br.com.compass.pb.msorder.domain.dto.OrderDTO;
 import br.com.compass.pb.msorder.domain.dto.OrderResponse;
+import br.com.compass.pb.msorder.domain.dto.PageableResponse;
 import br.com.compass.pb.msorder.domain.model.Address;
 import br.com.compass.pb.msorder.domain.model.Item;
 import br.com.compass.pb.msorder.domain.model.Order;
@@ -14,6 +15,8 @@ import br.com.compass.pb.msorder.framework.viacep.ViaCepClient;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
@@ -57,5 +60,26 @@ public class OrderService implements OrderUseCase {
         });
         var response = new OrderResponse(order);
         return response;
+    }
+
+    @Override
+    public PageableResponse FindAll(String cpf, Pageable pageable) {
+        if (cpf != null)
+            cpf = cpf.replaceAll(" ", "");
+        Page<Order> page = cpf == null || cpf.isEmpty()?
+                repository.findAll(pageable):
+                repository.findByCpf(cpf,pageable);
+
+        if(page.isEmpty())
+            throw new GenericException(HttpStatus.BAD_REQUEST,"Não foi possível localizar pedidos com este cpf");
+
+
+          return PageableResponse.builder().
+                  numberOfElements(page.getNumberOfElements())
+                  .totalElements(page.getTotalElements())
+                  .totalPages(page.getTotalPages())
+                  .orders(page.getContent())
+                  .build();
+
     }
 }
