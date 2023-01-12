@@ -35,6 +35,8 @@ public class OrderService implements OrderUseCase {
         var order = modelMapper.map(orderDTO, Order.class);
 
         AddressDTO addressDTO = viaCepClient.findByCep(orderDTO.getCep());
+        if(addressDTO.getLocalidade() == null)
+            throw new GenericException(HttpStatus.BAD_REQUEST,"Cep inexistente");
 
         var address = Address.builder()
                 .city(addressDTO.getLocalidade())
