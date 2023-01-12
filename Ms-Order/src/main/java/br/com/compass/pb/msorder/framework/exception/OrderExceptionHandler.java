@@ -1,7 +1,5 @@
 package br.com.compass.pb.msorder.framework.exception;
 
-import jakarta.validation.ConstraintViolationException;
-import org.hibernate.validator.internal.engine.ConstraintViolationImpl;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
@@ -11,8 +9,6 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
-
-import java.util.List;
 
 @ControllerAdvice
 public class OrderExceptionHandler extends ResponseEntityExceptionHandler {
