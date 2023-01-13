@@ -1,13 +1,11 @@
 package br.com.compass.pb.msorder.application.ports.out;
 
 import br.com.compass.pb.msorder.domain.model.Item;
-import br.com.compass.pb.msorder.domain.model.Order;
 
-import java.util.List;
+import java.util.Optional;
 
 public interface ItemPortOut {
-     <S extends Order> S save(S item);
+     Item save(Item item);
+     Optional<Item> findById(Long id);
 
-     List<Item> saveAll(Iterable<Item> items);
-      List<Item> saveAllAndFlush(Iterable<Item> items);
 }
