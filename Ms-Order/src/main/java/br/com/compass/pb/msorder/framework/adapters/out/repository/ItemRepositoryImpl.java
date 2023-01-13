@@ -2,11 +2,10 @@ package br.com.compass.pb.msorder.framework.adapters.out.repository;
 
 import br.com.compass.pb.msorder.application.ports.out.ItemPortOut;
 import br.com.compass.pb.msorder.domain.model.Item;
-import br.com.compass.pb.msorder.domain.model.Order;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
-import java.util.List;
+import java.util.Optional;
 
 @Repository
 @RequiredArgsConstructor
@@ -15,17 +14,12 @@ public class ItemRepositoryImpl implements ItemPortOut {
 
 
     @Override
-    public <S extends Order> S save(S item) {
+    public Item save(Item item) {
         return repository.save(item);
     }
 
     @Override
-    public List<Item> saveAll(Iterable<Item> items) {
-        return repository.saveAll(items);
-    }
-
-    @Override
-    public List<Item> saveAllAndFlush(Iterable<Item> items) {
-        return repository.saveAllAndFlush(items);
+    public Optional<Item> findById(Long id) {
+        return repository.findById(id);
     }
 }
