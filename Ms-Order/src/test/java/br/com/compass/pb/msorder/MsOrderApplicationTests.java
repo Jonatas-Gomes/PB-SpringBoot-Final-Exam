@@ -1,4 +1,4 @@
-package br.com.compass.pb.MsOrder;
+package br.com.compass.pb.msorder;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
