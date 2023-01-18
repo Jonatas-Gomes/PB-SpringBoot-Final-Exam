@@ -1,1 +1,8 @@
+server:
+  port: 8082
+spring:
+  data:
+    mongodb:
+      uri: mongodb+srv://Jonatas:root@cluster0.y5uaelu.mongodb.net/?retryWrites=true&w=majority
+      database: ms-history
 

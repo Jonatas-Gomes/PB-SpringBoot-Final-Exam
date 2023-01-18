@@ -7,6 +7,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Getter
@@ -15,11 +16,11 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @Document(collection = "history")
 public class History {
-    @NonNull
+
     @Field(name = "id")
     @Indexed(unique = true)
     @Id
-    private Long id;
+    private String id;
     @NonNull
     @Field(name="id_order")
     @Indexed(unique = true)
@@ -29,7 +30,7 @@ public class History {
     private BigDecimal total;
     @NonNull
     @Field(name="event_date")
-    private LocalDateTime eventDate;
+    private LocalDate eventDate;
 
     @NonNull
     @Field
