@@ -2,15 +2,16 @@ package br.com.compass.pb.msorder.application.service;
 
 import br.com.compass.pb.msorder.application.ports.in.OrderUseCase;
 import br.com.compass.pb.msorder.application.ports.out.OrderPortOut;
-import br.com.compass.pb.msorder.domain.dto.AddressDTO;
-import br.com.compass.pb.msorder.domain.dto.OrderDTO;
-import br.com.compass.pb.msorder.domain.dto.OrderResponse;
-import br.com.compass.pb.msorder.domain.dto.PageableResponse;
+import br.com.compass.pb.msorder.domain.dto.*;
 import br.com.compass.pb.msorder.domain.model.Address;
 import br.com.compass.pb.msorder.domain.model.Item;
 import br.com.compass.pb.msorder.domain.model.Order;
 import br.com.compass.pb.msorder.framework.exception.GenericException;
+import br.com.compass.pb.msorder.framework.kafka.KafkaProducer;
 import br.com.compass.pb.msorder.framework.viacep.ViaCepClient;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
@@ -28,10 +29,11 @@ public class OrderService implements OrderUseCase {
     private final OrderPortOut repository;
     private final ModelMapper modelMapper;
     private final ViaCepClient viaCepClient;
+    private final KafkaProducer kafkaProducer;
 
     @Override
     @Transactional(rollbackOn = Exception.class)
-    public OrderResponse createOrder(OrderDTO orderDTO) {
+    public OrderResponse createOrder(OrderDTO orderDTO) throws JsonProcessingException {
         var order = modelMapper.map(orderDTO, Order.class);
 
         AddressDTO addressDTO = viaCepClient.findByCep(orderDTO.getCep());
@@ -58,6 +60,18 @@ public class OrderService implements OrderUseCase {
                 throw new GenericException(HttpStatus.BAD_REQUEST, "O item não pode expirar antes da data de criação!");
             }
         });
+
+        ObjectMapper objectMapper = new ObjectMapper();
+        objectMapper.registerModule(new JavaTimeModule());
+
+        var messageDTO = MessageOrderDTO.builder()
+                .orderId(order.getId())
+                .total(order.getTotal())
+                .build();
+        String message = objectMapper.writeValueAsString(messageDTO);
+
+        kafkaProducer.sendOrder(message);
+
         var response = new OrderResponse(order);
         return response;
     }

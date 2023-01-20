@@ -24,7 +24,6 @@ public class Item {
     private Long id;
 
     @Column(nullable = false)
-    @NotNull(message = "Name não pode ser nulo")
     private String name;
 
     @Column(name="creation_date")

@@ -4,6 +4,7 @@ import br.com.compass.pb.msorder.application.ports.in.OrderUseCase;
 import br.com.compass.pb.msorder.domain.dto.OrderDTO;
 import br.com.compass.pb.msorder.domain.dto.OrderResponse;
 import br.com.compass.pb.msorder.domain.dto.PageableResponse;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
@@ -17,7 +18,7 @@ import org.springframework.web.bind.annotation.*;
 public class OrderController {
     private final OrderUseCase orderUseCase;
     @PostMapping
-    public ResponseEntity<OrderResponse>createOrder(@RequestBody @Valid OrderDTO orderDTO){
+    public ResponseEntity<OrderResponse>createOrder(@RequestBody @Valid OrderDTO orderDTO) throws JsonProcessingException {
         return ResponseEntity.status(HttpStatus.CREATED).body(orderUseCase.createOrder(orderDTO));
     }
     @GetMapping
