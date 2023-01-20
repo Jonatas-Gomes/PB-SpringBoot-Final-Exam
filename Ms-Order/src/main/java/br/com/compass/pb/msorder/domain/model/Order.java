@@ -29,8 +29,6 @@ public class Order {
 
     @CPF
     @Column(nullable = false)
-    @NotBlank
-    @NotNull
     private String cpf;
     @OneToMany(cascade = CascadeType.ALL)
     private List<Item> items;

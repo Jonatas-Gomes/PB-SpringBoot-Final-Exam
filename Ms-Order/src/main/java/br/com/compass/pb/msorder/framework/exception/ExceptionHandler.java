@@ -37,6 +37,7 @@ public class ExceptionHandler extends ResponseEntityExceptionHandler {
 
     @org.springframework.web.bind.annotation.ExceptionHandler(GenericException.class)
     public ResponseEntity<Object> handleGenericException(GenericException exception){
+
         var genericExeption = new GenericException(exception.getStatus(), exception.getMessageDTO());
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(genericExeption);
     }
