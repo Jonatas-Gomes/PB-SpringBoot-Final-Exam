@@ -15,6 +15,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 @Document(collection = "history")
+@Builder
 public class History {
 
     @Field(name = "id")
@@ -30,10 +31,10 @@ public class History {
     private BigDecimal total;
     @NonNull
     @Field(name="event_date")
-    private LocalDate eventDate;
-
+    private LocalDateTime eventDate;
+/*
     @NonNull
     @Field
     private String code;
-
+*/
 }

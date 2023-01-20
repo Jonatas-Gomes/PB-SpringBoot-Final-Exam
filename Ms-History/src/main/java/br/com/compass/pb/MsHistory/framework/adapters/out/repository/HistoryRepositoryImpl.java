@@ -23,5 +23,10 @@ public class HistoryRepositoryImpl implements HistoryPortOut {
         return repository.findByEventDate(date, pageable);
     }
 
+    @Override
+    public void save(History history) {
+        repository.save(history);
+    }
+
 
 }

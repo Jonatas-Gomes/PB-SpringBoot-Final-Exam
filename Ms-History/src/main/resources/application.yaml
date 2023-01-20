@@ -5,4 +5,14 @@ spring:
     mongodb:
       uri: mongodb+srv://Jonatas:root@cluster0.y5uaelu.mongodb.net/?retryWrites=true&w=majority
       database: ms-history
+  kafka:
+    consumer:
+      bootstrap-servers: localhost:9092
+      group-id: group_id
+      auto-offset-reset: earliest
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
 
+
+topic:
+  order-topic: topic_new_order

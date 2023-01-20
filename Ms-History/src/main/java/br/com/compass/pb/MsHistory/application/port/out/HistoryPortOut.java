@@ -10,4 +10,5 @@ public interface HistoryPortOut {
     Page<History> findAll(Pageable pageable);
     Page<History> findByEventDate(LocalDate date, Pageable pageable);
 
+    void save(History history);
 }
