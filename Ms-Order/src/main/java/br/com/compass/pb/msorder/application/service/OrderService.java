@@ -61,13 +61,11 @@ public class OrderService implements OrderUseCase {
             }
         });
 
-        ObjectMapper objectMapper = new ObjectMapper();
-        objectMapper.registerModule(new JavaTimeModule());
-
         var messageDTO = MessageOrderDTO.builder()
                 .orderId(order.getId())
                 .total(order.getTotal())
                 .build();
+        ObjectMapper objectMapper = new ObjectMapper();
         String message = objectMapper.writeValueAsString(messageDTO);
 
         kafkaProducer.sendOrder(message);
