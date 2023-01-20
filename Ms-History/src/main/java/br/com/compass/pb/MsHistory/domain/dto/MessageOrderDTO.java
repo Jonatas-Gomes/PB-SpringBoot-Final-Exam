@@ -8,6 +8,6 @@ import java.math.BigDecimal;
 @Getter
 @Setter
 public class MessageOrderDTO {
-    private Long idOrder;
+    private Long orderId;
     private BigDecimal total;
 }
