@@ -15,6 +15,7 @@ import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Service;
 
 import java.time.Instant;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.TimeZone;
 
@@ -38,11 +39,12 @@ public class KafkaConsumer {
 
     private void saveMessageOrder(Long timestamp, MessageOrderDTO messageOrderDTO) {
         LocalDateTime time = LocalDateTime.ofInstant(Instant.ofEpochMilli(timestamp), TimeZone.getDefault().toZoneId());
+        LocalDate date = time.toLocalDate();
 
         var history = History.builder()
                 .idOrder(messageOrderDTO.getOrderId())
                 .total(messageOrderDTO.getTotal())
-                .eventDate(time)
+                .eventDate(date)
                 .build();
 
         portOut.save(history);
