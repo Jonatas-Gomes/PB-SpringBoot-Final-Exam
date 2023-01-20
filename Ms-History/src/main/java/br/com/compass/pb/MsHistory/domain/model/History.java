@@ -31,7 +31,7 @@ public class History {
     private BigDecimal total;
     @NonNull
     @Field(name="event_date")
-    private LocalDateTime eventDate;
+    private LocalDate eventDate;
 /*
     @NonNull
     @Field
