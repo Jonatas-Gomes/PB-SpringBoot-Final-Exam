@@ -19,11 +19,16 @@ public class ItemService implements ItemUseCase {
     public ItemResponse pachItem(Long id, ItemDTO itemDTO) {
         var item = portOut.findById(id)
                 .orElseThrow(() -> new GenericException(HttpStatus.BAD_REQUEST, "Não foi possível localizar um item com este id!"));
+
         if(itemDTO.getExpirationDate().isBefore(item.getCreationDate()))
             throw new GenericException(HttpStatus.BAD_REQUEST, "data de expiração não pode ser anterior a data de criação!");
+
         item.setExpirationDate(itemDTO.getExpirationDate());
         item.setValue(itemDTO.getValue());
+        item.setName(itemDTO.getName());
+        item.setDescription(itemDTO.getDescription());
         portOut.save(item);
+
         return modelMapper.map(item, ItemResponse.class);
     }
 }

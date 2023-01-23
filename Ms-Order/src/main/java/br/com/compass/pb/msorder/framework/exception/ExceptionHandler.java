@@ -1,6 +1,5 @@
 package br.com.compass.pb.msorder.framework.exception;
 
-import jakarta.validation.ConstraintViolationException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.MessageSource;
 import org.springframework.context.i18n.LocaleContextHolder;
@@ -8,15 +7,12 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
-import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
-import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 @RequiredArgsConstructor
@@ -38,14 +34,17 @@ public class ExceptionHandler extends ResponseEntityExceptionHandler {
     @org.springframework.web.bind.annotation.ExceptionHandler(GenericException.class)
     public ResponseEntity<Object> handleGenericException(GenericException exception){
 
-        var genericExeption = new GenericException(exception.getStatus(), exception.getMessageDTO());
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(genericExeption);
-    }
-    @org.springframework.web.bind.annotation.ExceptionHandler(Exception.class)
-    public ResponseEntity<Object> handleAllException(Exception exception){
-        var genericException = new GenericException(HttpStatus.INTERNAL_SERVER_ERROR, exception.getMessage());
-        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(genericException);
+        var response = ErrorMessageResponse.builder().message(exception.getMessageDTO());
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
     }
 
+    /*@org.springframework.web.bind.annotation.ExceptionHandler(Exception.class)
+    public ResponseEntity<Object> handleAllException(Exception exception){
+        if (exception instanceof GenericException){
+            return this.handleGenericException((GenericException) exception);
+        }
+        var response = ErrorMessageResponse.builder().message(exception.getMessage());
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
+    }*/
 
 }

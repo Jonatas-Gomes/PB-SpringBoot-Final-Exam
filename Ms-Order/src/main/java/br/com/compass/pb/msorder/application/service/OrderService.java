@@ -11,15 +11,16 @@ import br.com.compass.pb.msorder.framework.kafka.KafkaProducer;
 import br.com.compass.pb.msorder.framework.viacep.ViaCepClient;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
+import org.modelmapper.TypeToken;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -36,30 +37,48 @@ public class OrderService implements OrderUseCase {
     public OrderResponse createOrder(OrderDTO orderDTO) throws JsonProcessingException {
         var order = modelMapper.map(orderDTO, Order.class);
 
-        AddressDTO addressDTO = viaCepClient.findByCep(orderDTO.getCep());
-        if(addressDTO.getLocalidade() == null)
-            throw new GenericException(HttpStatus.BAD_REQUEST,"Cep inexistente");
+        var itemsDTO = orderDTO.getItems();
+        List<Item> itemEntities = modelMapper.map(itemsDTO, new TypeToken<List<Item>>(){}.getType());
+
+        AddressDTO addressDTO = getAddress(orderDTO.getAddress().getCep());
 
         var address = Address.builder()
                 .city(addressDTO.getLocalidade())
                 .street(addressDTO.getLogradouro())
                 .state(addressDTO.getUf())
                 .district(addressDTO.getBairro())
-                .cep(orderDTO.getCep())
-                .number(orderDTO.getNumber())
+                .cep(orderDTO.getAddress().getCep())
+                .number(orderDTO.getAddress().getNumber())
                 .build();
 
+        order.setItems(itemEntities);
         order.setAddress(address);
-        repository.save(order);
+
+        BigDecimal total = new BigDecimal(0);
 
         List<Item> items = order.getItems();
+        /*
         items.forEach(item -> {
             item.setOrder(order);
             item.setCreationDate(LocalDate.now());
+            total = total.add(item.getValue());
             if(item.getExpirationDate().isBefore(item.getCreationDate())){
                 throw new GenericException(HttpStatus.BAD_REQUEST, "O item não pode expirar antes da data de criação!");
             }
-        });
+        });*/
+
+        for(Item item: items){
+            item.setOrder(order);
+            item.setCreationDate(LocalDate.now());
+            total = total.add(item.getValue());
+            if(item.getExpirationDate().isBefore(item.getCreationDate())){
+                throw new GenericException(HttpStatus.BAD_REQUEST, "O item não pode expirar antes da data de criação!");
+            }
+        }
+        order.setTotal(total);
+        repository.save(order);
+
+
 
         var messageDTO = MessageOrderDTO.builder()
                 .orderId(order.getId())
@@ -70,8 +89,7 @@ public class OrderService implements OrderUseCase {
 
         kafkaProducer.sendOrder(message);
 
-        var response = new OrderResponse(order);
-        return response;
+        return new OrderResponse(order);
     }
 
     @Override
@@ -81,7 +99,6 @@ public class OrderService implements OrderUseCase {
         Page<Order> page = cpf == null || cpf.isEmpty()?
                 repository.findAll(pageable):
                 repository.findByCpf(cpf,pageable);
-
         if(page.isEmpty())
             throw new GenericException(HttpStatus.BAD_REQUEST,"Não foi possível localizar pedidos com este cpf");
 
@@ -97,41 +114,26 @@ public class OrderService implements OrderUseCase {
 
     @Override
     public OrderResponse findById(Long id) {
-        Order order = repository.findById(id)
-                .orElseThrow(()-> new GenericException(HttpStatus.BAD_REQUEST, "Não foi possivel localizar um pedido com este id"));
+        var order = getOrder(id);
         return new OrderResponse(order);
     }
 
     @Override
-    public OrderResponse update(Long id, OrderDTO orderDTO) {
-        var order = repository.findById(id)
-                .orElseThrow(()-> new GenericException(HttpStatus.BAD_REQUEST, "Não foi possivel localizar um pedido com este id"));
+    public OrderResponse update(Long id, OrderUpdateDTO orderDTO) {
+        var order = getOrder(id);
 
-        AddressDTO addressDTO = viaCepClient.findByCep(orderDTO.getCep());
-        if(addressDTO.getLocalidade() == null)
-            throw new GenericException(HttpStatus.BAD_REQUEST,"Cep inexistente");
+        AddressDTO addressDTO = getAddress(orderDTO.getAddress().getCep());
 
         var address = Address.builder()
-                .cep(orderDTO.getCep())
+                .cep(orderDTO.getAddress().getCep())
                 .district(addressDTO.getBairro())
                 .state(addressDTO.getUf())
                 .city(addressDTO.getLocalidade())
-                .number(orderDTO.getNumber())
+                .number(orderDTO.getAddress().getNumber())
                 .street(addressDTO.getLogradouro())
                 .build();
-        
-        List<Item> items = orderDTO.getItems();
-        for(Item item : items){
-            item.setOrder(order);
-            item.setCreationDate(LocalDate.now());
-            if(item.getExpirationDate().isBefore(item.getCreationDate())){
-                throw new GenericException(HttpStatus.BAD_REQUEST, "O item não pode expirar antes da data de criação!");
-            }
-        }
 
-        order.setItems(items);
         order.setCpf(orderDTO.getCpf());
-        order.setTotal(orderDTO.getTotal());
         order.setAddress(address);
 
         repository.save(order);
@@ -143,5 +145,19 @@ public class OrderService implements OrderUseCase {
         if(!repository.findById(id).isPresent())
             throw new GenericException(HttpStatus.BAD_REQUEST, "Não foi possivel localizar um pedido com este id!");
         repository.deleteById(id);
+    }
+
+    public Order getOrder(Long id){
+       return repository.findById(id)
+                .orElseThrow(()-> new GenericException(HttpStatus.BAD_REQUEST, "Não foi possivel localizar um pedido com este id"));
+    }
+
+    public AddressDTO getAddress(String cep){
+        var addressDTO = viaCepClient.findByCep(cep);
+
+        if(addressDTO.getLocalidade() == null)
+            throw new GenericException(HttpStatus.BAD_REQUEST,"Cep inexistente");
+
+        return addressDTO;
     }
 }

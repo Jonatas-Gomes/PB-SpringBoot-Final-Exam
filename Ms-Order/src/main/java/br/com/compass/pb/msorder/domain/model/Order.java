@@ -30,12 +30,11 @@ public class Order {
     @CPF
     @Column(nullable = false)
     private String cpf;
-    @OneToMany(cascade = CascadeType.ALL)
-    private List<Item> items;
 
     @Column(nullable = false)
     private BigDecimal total;
-
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Item> items;
     @OneToOne(cascade = CascadeType.ALL)
     private Address address;
 

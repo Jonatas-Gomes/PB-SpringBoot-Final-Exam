@@ -1,9 +1,7 @@
 package br.com.compass.pb.msorder.framework.adapters.in.rest;
 
 import br.com.compass.pb.msorder.application.ports.in.OrderUseCase;
-import br.com.compass.pb.msorder.domain.dto.OrderDTO;
-import br.com.compass.pb.msorder.domain.dto.OrderResponse;
-import br.com.compass.pb.msorder.domain.dto.PageableResponse;
+import br.com.compass.pb.msorder.domain.dto.*;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -11,6 +9,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -30,7 +30,7 @@ public class OrderController {
         return ResponseEntity.status(HttpStatus.OK).body(orderUseCase.findById(id));
     }
     @PutMapping("/{id}")
-    public ResponseEntity<OrderResponse> update(@PathVariable Long id, @RequestBody @Valid OrderDTO orderDTO){
+    public ResponseEntity<OrderResponse> update(@PathVariable Long id, @RequestBody @Valid OrderUpdateDTO orderDTO){
         return ResponseEntity.status(HttpStatus.OK).body(orderUseCase.update(id, orderDTO));
     }
     @DeleteMapping("/{id}")
