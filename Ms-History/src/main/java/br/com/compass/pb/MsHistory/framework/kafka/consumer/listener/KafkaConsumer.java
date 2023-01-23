@@ -14,9 +14,11 @@ import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.Optional;
 import java.util.TimeZone;
 
 @Service
@@ -24,6 +26,7 @@ import java.util.TimeZone;
 @RequiredArgsConstructor
 public class KafkaConsumer {
     private final HistoryPortOut portOut;
+
     @KafkaListener(topics = "${topic.order-topic}", groupId = "group_id")
     public void consumeOrder(ConsumerRecord<String, String> payload) throws JsonProcessingException {
         log.info("message consumed");
@@ -33,8 +36,24 @@ public class KafkaConsumer {
         mapper.setVisibility(VisibilityChecker.Std.defaultInstance().withFieldVisibility(JsonAutoDetect.Visibility.ANY));
 
         var messageOrderDTO = mapper.readValue(payload.value(), MessageOrderDTO.class);
-        saveMessageOrder(payload.timestamp(), messageOrderDTO);
-        log.info("order message saved!");
+        var history = portOut.findByIdOrder(messageOrderDTO.getOrderId());
+
+        if(history.isPresent()){
+            updateHistoryOrder(payload.timestamp(), history, messageOrderDTO.getTotal());
+            log.info("order history updated!");
+        }else {
+            saveMessageOrder(payload.timestamp(), messageOrderDTO);
+            log.info("order message saved!");
+        }
+    }
+
+    private void updateHistoryOrder(long timestamp, Optional<History> history, BigDecimal total) {
+        LocalDateTime time = LocalDateTime.ofInstant(Instant.ofEpochMilli(timestamp), TimeZone.getDefault().toZoneId());
+        LocalDate date = time.toLocalDate();
+
+        history.get().setEventDate(date);
+        history.get().setTotal(total);
+        portOut.save(history.get());
     }
 
     private void saveMessageOrder(Long timestamp, MessageOrderDTO messageOrderDTO) {
