@@ -6,7 +6,10 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.mongodb.repository.MongoRepository;
 
 import java.time.LocalDate;
+import java.util.Optional;
 
 public interface HistoryJpaRepository extends MongoRepository<History, String> {
     Page<History> findByEventDate(LocalDate date, Pageable pageable);
+
+    Optional<History> findByIdOrder(Long orderId);
 }
