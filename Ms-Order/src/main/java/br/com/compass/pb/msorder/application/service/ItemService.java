@@ -5,8 +5,13 @@ import br.com.compass.pb.msorder.application.ports.out.ItemPortOut;
 import br.com.compass.pb.msorder.application.ports.out.OrderPortOut;
 import br.com.compass.pb.msorder.domain.dto.ItemDTO;
 import br.com.compass.pb.msorder.domain.dto.ItemResponse;
+import br.com.compass.pb.msorder.domain.dto.MessageOrderDTO;
 import br.com.compass.pb.msorder.framework.exception.GenericException;
+import br.com.compass.pb.msorder.framework.kafka.KafkaProducer;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -15,12 +20,14 @@ import java.math.BigDecimal;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class ItemService implements ItemUseCase {
     private final ItemPortOut portOut;
     private final OrderPortOut orderPortOut;
     private final ModelMapper modelMapper;
+    private final KafkaProducer kafkaProducer;
     @Override
-    public ItemResponse pachItem(Long id, ItemDTO itemDTO) {
+    public ItemResponse pachItem(Long id, ItemDTO itemDTO) throws JsonProcessingException {
         var item = portOut.findById(id)
                 .orElseThrow(() -> new GenericException(HttpStatus.BAD_REQUEST, "Não foi possível localizar um item com este id!"));
 
@@ -40,6 +47,15 @@ public class ItemService implements ItemUseCase {
         order.get().setTotal(total.add(itemDTO.getValue()));
         portOut.save(item);
 
+        var messageDTO = MessageOrderDTO.builder()
+                .orderId(order.get().getId())
+                .total(order.get().getTotal())
+                .build();
+        ObjectMapper objectMapper = new ObjectMapper();
+        String message = objectMapper.writeValueAsString(messageDTO);
+
+        log.info("update in order, new value total");
+        kafkaProducer.sendOrder(message);
 
         return modelMapper.map(item, ItemResponse.class);
     }
