@@ -38,7 +38,7 @@ public class Item {
 
     private String description;
 
-    @ManyToOne()
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "id_order", referencedColumnName = "id", nullable = false)
     private Order order;
 
