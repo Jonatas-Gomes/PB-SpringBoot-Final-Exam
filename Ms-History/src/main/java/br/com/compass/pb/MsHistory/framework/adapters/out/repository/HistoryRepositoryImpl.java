@@ -5,8 +5,13 @@ import br.com.compass.pb.MsHistory.domain.model.History;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.data.mongodb.core.query.Criteria;
+import org.springframework.data.mongodb.core.query.Query;
+import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Repository;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.Optional;
 
@@ -14,6 +19,7 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class HistoryRepositoryImpl implements HistoryPortOut {
     private final HistoryJpaRepository repository;
+    private final MongoTemplate mongoTemplate;
     @Override
     public Page<History> findAll(Pageable pageable) {
         return repository.findAll(pageable);
@@ -34,6 +40,12 @@ public class HistoryRepositoryImpl implements HistoryPortOut {
         return repository.findByIdOrder(orderId);
     }
 
+    @Override
+    public void updateHistory(Long orderId, BigDecimal total, LocalDate date) {
+        Query query = new Query().addCriteria(Criteria.where("id_order").is(orderId));
+        Update update = new Update().set("total", total).set("event_date", date);
+        mongoTemplate.update(History.class).matching(query).apply(update).first();
+    }
 
 
 }

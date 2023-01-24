@@ -51,9 +51,7 @@ public class KafkaConsumer {
         LocalDateTime time = LocalDateTime.ofInstant(Instant.ofEpochMilli(timestamp), TimeZone.getDefault().toZoneId());
         LocalDate date = time.toLocalDate();
 
-        history.get().setEventDate(date);
-        history.get().setTotal(total);
-        portOut.save(history.get());
+        portOut.updateHistory(history.get().getIdOrder(), total, date);
     }
 
     private void saveMessageOrder(Long timestamp, MessageOrderDTO messageOrderDTO) {
