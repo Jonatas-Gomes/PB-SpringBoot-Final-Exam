@@ -3,12 +3,14 @@ package br.com.compass.pb.msorder.domain.dto;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.validator.constraints.Length;
 
 @Getter
 @Setter
+@Builder
 public class AddressRequestDTO {
     @Pattern(regexp = "^([0-9]{8})+$", message ="Cep deve conter 8 digitos numéricos!")
     @NotBlank

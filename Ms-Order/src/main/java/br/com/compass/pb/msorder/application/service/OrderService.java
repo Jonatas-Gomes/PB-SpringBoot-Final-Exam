@@ -57,15 +57,6 @@ public class OrderService implements OrderUseCase {
         BigDecimal total = new BigDecimal(0);
 
         List<Item> items = order.getItems();
-        /*
-        items.forEach(item -> {
-            item.setOrder(order);
-            item.setCreationDate(LocalDate.now());
-            total = total.add(item.getValue());
-            if(item.getExpirationDate().isBefore(item.getCreationDate())){
-                throw new GenericException(HttpStatus.BAD_REQUEST, "O item não pode expirar antes da data de criação!");
-            }
-        });*/
 
         for(Item item: items){
             item.setOrder(order);

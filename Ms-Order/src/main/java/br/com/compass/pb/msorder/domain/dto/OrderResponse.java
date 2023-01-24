@@ -1,14 +1,13 @@
 package br.com.compass.pb.msorder.domain.dto;
 
 import br.com.compass.pb.msorder.domain.model.Order;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
+
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
+@Builder
 public class OrderResponse {
    private Order order;
 }
