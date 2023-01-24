@@ -1,10 +1,12 @@
 package br.com.compass.pb.msorder.domain.dto;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 @Getter
 @Setter
+@AllArgsConstructor
+@NoArgsConstructor
+@Builder
 public class AddressDTO {
     private String logradouro;
     private String complemento;
