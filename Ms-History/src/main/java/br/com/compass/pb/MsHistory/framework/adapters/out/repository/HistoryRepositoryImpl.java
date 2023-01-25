@@ -13,6 +13,7 @@ import org.springframework.stereotype.Repository;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.List;
 import java.util.Optional;
 
 @Repository
@@ -45,6 +46,11 @@ public class HistoryRepositoryImpl implements HistoryPortOut {
         Query query = new Query().addCriteria(Criteria.where("id_order").is(orderId));
         Update update = new Update().set("total", total).set("event_date", date);
         mongoTemplate.update(History.class).matching(query).apply(update).first();
+    }
+
+    @Override
+    public Page<History> findByEventDateBetween(LocalDate inicio, LocalDate fim, Pageable pageable) {
+        return repository.findByEventDateBetween(inicio, fim,  pageable);
     }
 
 
