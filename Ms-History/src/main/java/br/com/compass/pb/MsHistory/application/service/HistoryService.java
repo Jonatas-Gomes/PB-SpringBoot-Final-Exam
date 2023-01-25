@@ -12,6 +12,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -25,7 +26,8 @@ public class HistoryService implements HistoryUseCase {
         if(inicio == null && fim == null){
             historic = portOut.findAll(pageable);
         }else{
-            portOut.findByEventDateBetween(inicio, fim, pageable);
+            List<History> list = portOut.findByEventDateBetween(inicio, fim, pageable);
+            System.out.println(list.get(0).getTotal());
         }
 
         if(historic.isEmpty()){

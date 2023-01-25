@@ -7,6 +7,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.mongodb.repository.MongoRepository;
 
 import java.time.LocalDate;
+import java.util.List;
 import java.util.Optional;
 
 public interface HistoryJpaRepository extends MongoRepository<History, String> {
@@ -14,7 +15,7 @@ public interface HistoryJpaRepository extends MongoRepository<History, String> {
 
     Optional<History> findByIdOrder(Long orderId);
 
-    Page<History>findByEventDateBetween(LocalDate inicio, LocalDate fim, Pageable pageable);
+    List<History> findByEventDateBetween(LocalDate inicio, LocalDate fim, Pageable pageable);
 
 
 

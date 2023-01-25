@@ -6,6 +6,7 @@ import org.springframework.data.domain.Pageable;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.List;
 import java.util.Optional;
 
 public interface HistoryPortOut {
@@ -18,5 +19,5 @@ public interface HistoryPortOut {
 
     void updateHistory(Long orderId, BigDecimal total, LocalDate localDate);
 
-    Page<History> findByEventDateBetween(LocalDate inicio, LocalDate fim, Pageable pageable);
+    List<History> findByEventDateBetween(LocalDate inicio, LocalDate fim, Pageable pageable);
 }
