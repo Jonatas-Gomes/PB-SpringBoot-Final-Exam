@@ -25,10 +25,19 @@ public class HistoryService implements HistoryUseCase {
 
         if(inicio == null && fim == null){
             historic = portOut.findAll(pageable);
-        }else{
-            historic = portOut.findByEventDateBetween(inicio, fim, pageable);
-        }
 
+        }else if (inicio != null && fim != null){
+            if(fim.isBefore(inicio)){
+                throw new GenericException(HttpStatus.BAD_REQUEST, "O parametro final deve ser preenchido com uma data posterior ao parametro de inicio");
+            }
+            historic = portOut.findByEventDateBetween(inicio, fim, pageable);
+
+        }
+        else{
+           historic = inicio == null ? portOut.findByEventDate(fim ,pageable)
+                   : portOut.findByEventDate(inicio,pageable);
+        }
+        
         if(historic.isEmpty()){
             throw new GenericException(HttpStatus.BAD_REQUEST, "Não há pedidos nesta data!");
         }
