@@ -6,6 +6,6 @@ import org.springframework.data.domain.Pageable;
 import java.time.LocalDate;
 
 public interface HistoryUseCase {
-    PageableResponse findAllHistories(LocalDate date, Pageable pageable);
+    PageableResponse findAllHistories(LocalDate inicio, LocalDate fim, Pageable pageable);
 
 }
