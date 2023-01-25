@@ -49,7 +49,7 @@ public class HistoryRepositoryImpl implements HistoryPortOut {
     }
 
     @Override
-    public List<History> findByEventDateBetween(LocalDate inicio, LocalDate fim, Pageable pageable) {
+    public Page<History> findByEventDateBetween(LocalDate inicio, LocalDate fim, Pageable pageable) {
         return repository.findByEventDateBetween(inicio, fim,  pageable);
     }
 

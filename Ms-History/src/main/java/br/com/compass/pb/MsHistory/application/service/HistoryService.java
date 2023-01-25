@@ -26,8 +26,7 @@ public class HistoryService implements HistoryUseCase {
         if(inicio == null && fim == null){
             historic = portOut.findAll(pageable);
         }else{
-            List<History> list = portOut.findByEventDateBetween(inicio, fim, pageable);
-            System.out.println(list.get(0).getTotal());
+            historic = portOut.findByEventDateBetween(inicio, fim, pageable);
         }
 
         if(historic.isEmpty()){

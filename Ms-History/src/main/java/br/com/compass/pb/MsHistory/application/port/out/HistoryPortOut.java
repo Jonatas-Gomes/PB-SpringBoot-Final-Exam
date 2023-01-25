@@ -19,5 +19,5 @@ public interface HistoryPortOut {
 
     void updateHistory(Long orderId, BigDecimal total, LocalDate localDate);
 
-    List<History> findByEventDateBetween(LocalDate inicio, LocalDate fim, Pageable pageable);
+    Page<History> findByEventDateBetween(LocalDate inicio, LocalDate fim, Pageable pageable);
 }
