@@ -2,6 +2,8 @@ package br.com.compass.pb.msorder.domain.dto;
 
 
 import br.com.compass.pb.msorder.domain.model.Item;
+import io.swagger.v3.oas.annotations.media.ExampleObject;
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;
@@ -25,12 +27,15 @@ public class OrderDTO {
     @NotBlank
     @NotEmpty
     @NotNull
+    @Schema(name = "cpf", example = "93267686512", type = "String")
     private String cpf;
     @NotNull
     @Valid
+    @Schema(name = "items")
     private List<ItemDTO> items;
     @NotNull
     @Valid
+    @Schema(name = "address")
     private AddressRequestDTO address;
 
 }

@@ -3,6 +3,7 @@ package br.com.compass.pb.msorder.domain.model;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
@@ -23,6 +24,7 @@ import java.time.LocalDate;
 public class Item {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Schema(name = "id", example = "9")
     private Long id;
 
     @Column(nullable = false)
@@ -35,7 +37,7 @@ public class Item {
     @Column(name="expiration_date")
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy")
     private LocalDate expirationDate;
-
+    @Schema(name="value", example = "25", type = "Number")
     private BigDecimal value;
 
     private String description;
