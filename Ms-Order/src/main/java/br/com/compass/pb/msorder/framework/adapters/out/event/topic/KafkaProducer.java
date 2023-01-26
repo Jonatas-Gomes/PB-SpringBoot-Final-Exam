@@ -1,4 +1,4 @@
-package br.com.compass.pb.msorder.framework.kafka;
+package br.com.compass.pb.msorder.framework.event.topic.producer;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
