@@ -1,5 +1,6 @@
 package br.com.compass.pb.msorder.domain.dto;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;
@@ -18,10 +19,12 @@ public class OrderUpdateDTO {
     @NotBlank
     @NotEmpty
     @NotNull
+    @Schema(name = "cpf", example = "93267686512", type = "String")
     private String cpf;
 
     @NotNull
     @Valid
+    @Schema(name = "address")
     private AddressRequestDTO address;
 
 }

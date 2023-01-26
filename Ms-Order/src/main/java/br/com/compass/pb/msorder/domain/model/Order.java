@@ -2,6 +2,7 @@ package br.com.compass.pb.msorder.domain.model;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -34,6 +35,7 @@ public class Order {
     @Column(nullable = false)
     private BigDecimal total;
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @Schema(type = "Object")
     private List<Item> items;
     @OneToOne(cascade = CascadeType.ALL)
     private Address address;
