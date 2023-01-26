@@ -31,7 +31,7 @@ public class ItemDTO {
     @JsonSerialize(using = LocalDateSerializer.class)
     @JsonDeserialize(using = LocalDateDeserializer.class)
     private LocalDate expirationDate;
-    @NotNull
+    @NotNull(message = "Campo obrigatório!")
     @Positive(message = "apenas valores positivos!")
     private BigDecimal value;
 
