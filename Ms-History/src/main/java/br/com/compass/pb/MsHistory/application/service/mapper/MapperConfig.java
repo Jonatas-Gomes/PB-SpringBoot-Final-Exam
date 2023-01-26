@@ -1,4 +1,4 @@
-package br.com.compass.pb.MsHistory.framework.mapper;
+package br.com.compass.pb.MsHistory.application.service.mapper;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.context.annotation.Bean;

@@ -1,4 +1,4 @@
-package br.com.compass.pb.MsHistory.framework.kafka.consumer.listener;
+package br.com.compass.pb.MsHistory.framework.adapters.in.event.topic.listener;
 
 import br.com.compass.pb.MsHistory.application.port.out.HistoryPortOut;
 import br.com.compass.pb.MsHistory.domain.dto.MessageOrderDTO;

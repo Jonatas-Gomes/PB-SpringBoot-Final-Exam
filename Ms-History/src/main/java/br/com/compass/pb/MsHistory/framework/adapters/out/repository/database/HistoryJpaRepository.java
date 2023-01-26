@@ -1,4 +1,4 @@
-package br.com.compass.pb.MsHistory.framework.adapters.out.repository;
+package br.com.compass.pb.MsHistory.framework.adapters.out.repository.database;
 
 import br.com.compass.pb.MsHistory.domain.model.History;
 import org.springframework.cglib.core.Local;

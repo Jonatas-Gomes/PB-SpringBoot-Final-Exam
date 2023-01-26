@@ -38,7 +38,7 @@ public class HistoryControllerTest {
     @Autowired
     private MockMvc mockMvc;
 
-    private final String URL = "/histories";
+    private final String URL = "/historico";
 
     @Test
     void whenGetOrderReturnSucess() throws Exception {

@@ -14,7 +14,7 @@ import java.time.LocalDate;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/histories")
+@RequestMapping("/historico")
 public class HistoryController {
 
     private final HistoryUseCase useCase;
