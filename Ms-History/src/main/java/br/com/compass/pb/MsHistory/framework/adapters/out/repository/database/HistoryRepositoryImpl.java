@@ -1,4 +1,4 @@
-package br.com.compass.pb.MsHistory.framework.adapters.out.repository;
+package br.com.compass.pb.MsHistory.framework.adapters.out.repository.database;
 
 import br.com.compass.pb.MsHistory.application.port.out.HistoryPortOut;
 import br.com.compass.pb.MsHistory.domain.model.History;
@@ -13,7 +13,6 @@ import org.springframework.stereotype.Repository;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
-import java.util.List;
 import java.util.Optional;
 
 @Repository
