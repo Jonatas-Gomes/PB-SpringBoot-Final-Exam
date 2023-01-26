@@ -5,6 +5,8 @@ import br.com.compass.pb.MsHistory.domain.dto.PageableResponse;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -22,7 +24,7 @@ public class HistoryController {
     public ResponseEntity<PageableResponse> findAllHistories(@RequestParam(required = false)
                                                                  @DateTimeFormat(pattern = "dd-MM-yyyy") LocalDate inicio,
                                                              @RequestParam(required = false) @DateTimeFormat(pattern = "dd-MM-yyyy") LocalDate fim,
-                                                             Pageable pageable){
+                                                             @PageableDefault(sort = "eventDate", direction = Sort.Direction.DESC) Pageable pageable){
         return ResponseEntity.status(HttpStatus.OK).body(useCase.findAllHistories(inicio, fim, pageable));
     }
 }
