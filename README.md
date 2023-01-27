@@ -2,7 +2,7 @@
   ## INFORMAÇÕES IMPORTANTES:
    - URI base microserviço order: http://localhost:8081/api 
    - URI base microserviço history: http://localhost:8082/api 
-   - Ambos Microserviços podem ser executados individualmente, porém antes necessário inicializar o docker compose contendo o kafka.
+   - Ambos Microserviços podem ser executados individualmente, porém é necessário inicializar o docker compose contendo o kafka.
    - Arquitetura Hexagonal
 
 
