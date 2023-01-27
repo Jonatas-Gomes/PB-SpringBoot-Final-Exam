@@ -132,11 +132,13 @@ curl --location --request PATCH 'http://localhost:8081/api/pedidos/itens/-724435
 ### DELETE - Response
   
 
-## Exemplos de cURL /history 
+## Endpoints do Microserviço History
 
 ### Request - GET 
 
-```json
+```
+  curl --location --request GET 'http://localhost:8082/api/historico' \
+
 ```
 
 ### Response - GET  
