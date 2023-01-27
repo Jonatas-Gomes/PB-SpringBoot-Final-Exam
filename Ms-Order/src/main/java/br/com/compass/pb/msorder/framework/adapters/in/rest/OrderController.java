@@ -8,6 +8,8 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -25,7 +27,9 @@ public class OrderController {
     }
     @GetMapping
     @Operation(summary = "Buscar todos os pedidos")
-    public ResponseEntity<PageableResponse> findAll(@RequestParam(required = false ) String cpf, Pageable pageable){
+    public ResponseEntity<PageableResponse> findAll(@RequestParam(required = false )
+                                                        @Schema(example = "93267686512") String cpf,
+                                                    @PageableDefault(sort = "id", direction = Sort.Direction.ASC) Pageable pageable){
         return ResponseEntity.status(HttpStatus.OK).body(orderUseCase.findall(cpf, pageable));
     }
     @GetMapping("/{id}")

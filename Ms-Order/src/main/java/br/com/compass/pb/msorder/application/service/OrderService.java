@@ -69,8 +69,6 @@ public class OrderService implements OrderUseCase {
         order.setTotal(total);
         repository.save(order);
 
-
-
         var messageDTO = MessageOrderDTO.builder()
                 .orderId(order.getId())
                 .total(order.getTotal())
