@@ -1,0 +1,99 @@
+openapi: 3.0.1
+info:
+  title: Microserviço History
+  description: Histórico de pedidos
+  contact:
+    name: Jônatas Gomes
+    url: https://github.com/Jonatas-Gomes
+    email: jonatas.gomes2014@hotmail.com
+  version: 0.1.0
+externalDocs:
+  description: Repositório da aplicação
+  url: https://github.com/Jonatas-Gomes/PB-SpringBoot-Final-Exam
+servers:
+  - url: http://localhost:8082/api
+    description: URL Base da aplicação
+paths:
+  /historico:
+    get:
+      tags:
+        - history-controller
+      summary: Buscar todo histórico de pedidos
+      operationId: findAllHistories
+      parameters:
+        - name: inicio
+          in: query
+          required: false
+          schema:
+            type: string
+            example: 23-01-2023
+          example: 23-01-2023
+        - name: fim
+          in: query
+          required: false
+          schema:
+            type: string
+            example: 30-03-2023
+          example: 30-03-2023
+        - name: pageable
+          in: query
+          required: true
+          schema:
+            $ref: '#/components/schemas/Pageable'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PageableResponse'
+components:
+  schemas:
+    Pageable:
+      type: object
+      properties:
+        page:
+          minimum: 0
+          type: integer
+          format: int32
+          default: "0"
+        size:
+          minimum: 1
+          type: integer
+          format: int32
+          example: 15
+        sort:
+          type: array
+          default:
+          items:
+            type: string
+            default:  
+    History:
+      type: object
+      properties:
+        id:
+          type: string
+        idOrder:
+          type: integer
+          format: int64
+        total:
+          type: number
+        eventDate:
+          type: string
+          format: date
+    PageableResponse:
+      type: object
+      properties:
+        numberOfElements:
+          type: integer
+          format: int32
+        totalElements:
+          type: integer
+          format: int64
+        totalPages:
+          type: integer
+          format: int32
+        histories:
+          type: array
+          items:
+            $ref: '#/components/schemas/History'
