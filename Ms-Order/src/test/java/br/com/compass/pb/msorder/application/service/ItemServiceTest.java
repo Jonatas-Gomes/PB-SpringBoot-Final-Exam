@@ -47,7 +47,7 @@ public class ItemServiceTest {
 
     private final String CEP = "41200150";
 
-    private final String CPF = "08010383597";
+    private final String CPF = "93267686512";
 
 
     @Test
