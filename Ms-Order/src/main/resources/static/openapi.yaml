@@ -90,6 +90,8 @@ paths:
           required: false
           schema:
             type: string
+            example: 93267686512
+          example: 93267686512
         - name: pageable
           in: query
           required: true
@@ -228,7 +230,7 @@ components:
           type: string
           format: date
           pattern: ^(3[01]|[12][0-9]|0[1-9])-(1[0-2]|0[1-9])-[0-9]{4}$
-          example: '28-02-2023'
+          example: '30-03-2023'
         value:
           type: number
           example: 25
@@ -271,7 +273,7 @@ components:
           minimum: 0
           type: integer
           format: int32
-          example: 0
+          default: "0"
         size:
           minimum: 1
           type: integer
@@ -279,10 +281,10 @@ components:
           example: 15
         sort:
           type: array
-          example: 
+          default:
           items:
             type: string
-            example: 
+            default:
     PageableResponse:
       type: object
       properties:
