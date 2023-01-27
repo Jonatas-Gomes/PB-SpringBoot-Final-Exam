@@ -13,7 +13,7 @@
 
 ## TECNOLOGIAS UTILIZADAS NO PROJETO
 
-- Kafka - Para trafegar informações de novos pedido entre o microserviço order e o history
+- Kafka - Para trafegar informações de criação ou atualização de pedidos entre o microserviço order e o history
 - OPEN-FEIGN - Para fazer comunicação com a api Via-Cep
 - ModelMapper
 - Lombok
