@@ -95,18 +95,40 @@
   ![PUTRESPONSEPRINT](https://user-images.githubusercontent.com/57242457/215170497-f3710631-5aea-4b57-896e-74efb6e2391d.png)
   
 ### GET ID - Request
+```
+curl --location --request GET 'http://localhost:8081/api/pedidos/10' \
+```
+
   ![GetId](https://user-images.githubusercontent.com/57242457/215171674-9f413cfe-f3cc-4d75-812e-0fe234269fe6.png)
 
 ### GET ID - Response
+
   
 ### PATCH - Request 
+
+```
+curl --location --request PATCH 'http://localhost:8081/api/pedidos/itens/-72443552' \
+--header 'Content-Type: application/json' \
+--header 'Accept: application/json' \
+--data-raw '{
+  "name": "This is a name",
+  "value": 25,
+  "description": "this is a description",
+  "expirationDate": "30-03-2023"
+}'
+
+```
+
   ![PATCHRequest](https://user-images.githubusercontent.com/57242457/215172120-ea7890f9-2138-402b-97ec-cd7ae3a54076.png)
   
 ### PATCH - Response
   ![PatchResponse](https://user-images.githubusercontent.com/57242457/215172472-77b6069f-8cd7-4fef-958a-2e3b5183a591.png)
 
 ### DELETE - Request
+  ```
+  curl --location --request DELETE 'http://localhost:8081/api/pedidos/32' \
   
+```
 ### DELETE - Response
   
 
