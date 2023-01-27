@@ -1,4 +1,4 @@
-# MICROSERVIÇOS ORDER E PEDIDOS  
+# MICROSERVIÇOS ORDER E HISTORY
   ## INFORMAÇÕES IMPORTANTES:
    - URI base microserviço order: http://localhost:8081/api 
    - URI base microserviço history: http://localhost:8082/api 
