@@ -1,6 +1,7 @@
 package br.com.compass.pb.MsHistory.domain.model;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.*;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.Indexed;
@@ -34,9 +35,4 @@ public class History {
     @Field(name="event_date")
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy")
     private LocalDate eventDate;
-/*
-    @NonNull
-    @Field
-    private String code;
-*/
 }
