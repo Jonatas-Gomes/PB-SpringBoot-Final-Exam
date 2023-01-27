@@ -44,7 +44,7 @@ public class OrderServiceTest {
     private KafkaProducer kafkaProducer;
 
     private static final Long ID=1L;
-    private final String CPF = "08010383597";
+    private final String CPF = "93267686512";
     private final String CEP = "41200150";
     private final String CEP_INVALID = "99999999";
     private final BigDecimal VALUE = new BigDecimal("30");
