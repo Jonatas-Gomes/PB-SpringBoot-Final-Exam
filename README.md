@@ -148,3 +148,8 @@ curl --location --request PATCH 'http://localhost:8081/api/pedidos/itens/-724435
 
 ![GetAllSemParamResponsePrint](https://user-images.githubusercontent.com/57242457/215183763-38daecbd-2186-403a-ad13-d9715d5cb709.png)
 
+## Testes Unitários
+### Order
+ ![OrderTests](https://user-images.githubusercontent.com/57242457/215184975-636065e1-ce80-4916-95cf-a504edafc7e8.png)
+### History
+![historyTestsCouveragePrintAll](https://user-images.githubusercontent.com/57242457/215185252-2dcd6a43-4780-4198-9e11-8aafa7054460.png)
