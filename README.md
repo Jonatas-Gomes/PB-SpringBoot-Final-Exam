@@ -34,7 +34,8 @@
  
 
 ### GET - Request 
- 
+
+``` curl --location --request GET 'http://localhost:8082/api/historico' \ ```
 ![GetAllSemCPF](https://user-images.githubusercontent.com/57242457/215168574-501701b3-f25e-4012-9b02-a1bc89b1fbee.png)
 
 
