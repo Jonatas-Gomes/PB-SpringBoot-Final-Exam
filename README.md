@@ -130,6 +130,8 @@ curl --location --request PATCH 'http://localhost:8081/api/pedidos/itens/-724435
   
 ```
 ### DELETE - Response
+
+![GetAllSemParamResponsePrint](https://user-images.githubusercontent.com/57242457/215183763-38daecbd-2186-403a-ad13-d9715d5cb709.png)
   
 
 ## Endpoints do Microserviço History
@@ -140,6 +142,8 @@ curl --location --request PATCH 'http://localhost:8081/api/pedidos/itens/-724435
   curl --location --request GET 'http://localhost:8082/api/historico' \
 
 ```
+![GetAllSemParam](https://user-images.githubusercontent.com/57242457/215183511-de13f9f3-afc6-405e-bbda-5591ba087c2e.png)
+
 
 ### Response - GET  
 
