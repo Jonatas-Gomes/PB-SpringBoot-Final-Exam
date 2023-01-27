@@ -8,7 +8,7 @@
 
 ### Swagger
 
-[Swagger - MS-History]()  
+[Swagger - MS-History]([./Ms-History/src/main/resources/](https://github.com/Jonatas-Gomes/PB-SpringBoot-Final-Exam/blob/main/Ms-History/src/main/resources/static/openapi.yaml))  
 [Swagger - MS-Order]()  
 
 ## TECNOLOGIAS UTILIZADAS NO PROJETO
