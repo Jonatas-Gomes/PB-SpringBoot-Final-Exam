@@ -36,6 +36,7 @@
 ### GET - Request 
 
 ``` curl --location --request GET 'http://localhost:8082/api/historico' \ ```
+
 ![GetAllSemCPF](https://user-images.githubusercontent.com/57242457/215168574-501701b3-f25e-4012-9b02-a1bc89b1fbee.png)
 
 
@@ -43,6 +44,26 @@
  ![GetAllSemParamResponsePrint](https://user-images.githubusercontent.com/57242457/215168877-5a0a78f9-a41a-414b-a9fb-c21e49a4735f.png)
 
 ### POST - Request 
+``` curl --location --request POST 'http://localhost:8081/api/pedidos' \
+--header 'Content-Type: application/json' \
+--header 'Accept: application/json' \
+--data-raw '{
+  "address": {
+    "cep": "41200365",
+    "number": "4143"
+  },
+  "cpf": "93267686512",
+  "items": [
+    {
+      "name": "This is a name",
+      "value": 25,
+      "description": "this is a description",
+      "expirationDate": "30-03-2023"
+    }
+  ]
+}'   
+ ``
+  
  ![POSTPedidosRequest2](https://user-images.githubusercontent.com/57242457/215169072-edc972a3-7ff5-4961-be4f-f96985780e59.png)
 
 ### POST - Response
