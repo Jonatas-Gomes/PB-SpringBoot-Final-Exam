@@ -11,7 +11,7 @@
 [Swagger - MS-History]()  
 [Swagger - MS-Order]()  
 
-## TECNOLOGIAS USADAS NO PROJETO
+## TECNOLOGIAS UTILIZADAS NO PROJETO
 
 - Kafka - Para trafegar informações de novos pedido entre o microserviço order e o history
 - OPEN-FEIGN - Para fazer comunicação com a api Via-Cep
