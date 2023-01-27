@@ -44,7 +44,9 @@
  ![GetAllSemParamResponsePrint](https://user-images.githubusercontent.com/57242457/215168877-5a0a78f9-a41a-414b-a9fb-c21e49a4735f.png)
 
 ### POST - Request 
-``` curl --location --request POST 'http://localhost:8081/api/pedidos' \
+
+```   
+   curl --location --request POST 'http://localhost:8081/api/pedidos' \
 --header 'Content-Type: application/json' \
 --header 'Accept: application/json' \
 --data-raw '{
@@ -61,8 +63,10 @@
       "expirationDate": "30-03-2023"
     }
   ]
-}'   
- ``
+}'
+
+```
+
   
  ![POSTPedidosRequest2](https://user-images.githubusercontent.com/57242457/215169072-edc972a3-7ff5-4961-be4f-f96985780e59.png)
 
@@ -70,6 +74,21 @@
  ![POSTPediosResponse](https://user-images.githubusercontent.com/57242457/215169908-2f42b8ea-580f-4741-b3c9-fd8827df4f05.png)
 
 ### PUT - Request
+
+```
+  curl --location --request PUT 'http://localhost:8081/api/pedidos/-72443552' \
+--header 'Content-Type: application/json' \
+--header 'Accept: application/json' \
+--data-raw '{
+  "address": {
+    "cep": "41200365",
+    "number": "4143"
+  },
+  "cpf": "93267686512"
+}'
+
+```
+
  ![Put](https://user-images.githubusercontent.com/57242457/215170180-37029400-6c74-4f9c-b901-490563c1004d.png)
 
 ### PUT - Response
